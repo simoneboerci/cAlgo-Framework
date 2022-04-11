@@ -4,14 +4,28 @@ using cAlgoUnityFramework.Strategies;
 
 namespace cAlgoUnityFramework.Unity
 {
-    public abstract class UnityRobot : UnityRobotBase, IUnityMasterRobot
+    public abstract class UnityRobot : UnityRobotBase, IRobot
     {
         #region Variables
 
         #region Public Variables
 
-
+        public string Name { get; private set; }
+        public Account Account { get; private set; }
         public StrategyBase Strategy { get; private set; }
+
+        #region Events
+
+        public event Action<PositionOpenedEventArgs>? PositionOpened;
+        public event Action<PositionClosedEventArgs>? PositionClosed;
+        public event Action<PositionModifiedEventArgs>? PositionModified;
+
+        public event Action<PendingOrderCreatedEventArgs>? PendingOrderCreated;
+        public event Action<PendingOrderFilledEventArgs>? PendingOrderFilled;
+        public event Action<PendingOrderModifiedEventArgs>? PendingOrderModified;
+        public event Action<PendingOrderCancelledEventArgs>? PendingOrderCancelled;
+
+        #endregion
 
         #endregion
 
@@ -23,13 +37,25 @@ namespace cAlgoUnityFramework.Unity
 
         #endregion
 
+        #region Methods 
+
         #region Public Methods
 
-        public UnityRobot(UnityMasterRobot unityMasterRobot, StrategyBase strategy)
+        public UnityRobot(UnityMasterRobot unityMasterRobot, string name, StrategyBase strategy)
         {
             _unityMasterRobot = unityMasterRobot;
 
-            Strategy = strategy;  
+            Account = new Account(this, _unityMasterRobot.Account.Balance);
+
+            Name = name;
+            Strategy = strategy;
+        }
+
+        public override void Stop()
+        {
+            ResetEvents();
+
+            base.Stop();
         }
 
         #region Orders
@@ -156,11 +182,42 @@ namespace cAlgoUnityFramework.Unity
 
         #endregion
 
+        #region Callbacks
+
+        public void OnPositionOpened(PositionOpenedEventArgs args) => PositionOpened?.Invoke(args);
+        public void OnPositionClosed(PositionClosedEventArgs args) => PositionClosed?.Invoke(args);
+        public void OnPositionModified(PositionModifiedEventArgs args) => PositionModified?.Invoke(args);
+
+        public void OnPendingOrderCreated(PendingOrderCreatedEventArgs args) => PendingOrderCreated?.Invoke(args);
+        public void OnPendingOrderFilled(PendingOrderFilledEventArgs args) => PendingOrderFilled?.Invoke(args);
+        public void OnPendingOrderModified(PendingOrderModifiedEventArgs args) => PendingOrderModified?.Invoke(args);    
+        public void OnPendingOrderCancelled(PendingOrderCancelledEventArgs args) => PendingOrderCancelled?.Invoke(args);
+
+        #endregion
+
         #region Setters
 
         public void SetStrategy(StrategyBase strategy)
         {
             if (strategy != null) Strategy = strategy;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Private Methods
+
+        private void ResetEvents()
+        {
+            PositionOpened = null;
+            PositionClosed = null;
+            PositionModified = null;
+
+            PendingOrderCreated = null;
+            PendingOrderFilled = null;
+            PendingOrderModified = null;
+            PendingOrderCancelled = null;
         }
 
         #endregion
