@@ -10,6 +10,7 @@ namespace cAlgoUnityFramework.Unity
         public DateTime ServerTimeInUTC;
 
         public Symbol Symbol { get; private set; }
+        public string SymbolName { get { return Symbol.Name; } }
         public TimeFrame TimeFrame { get; private set; }
         public Bars Bars { get; private set; }
 

@@ -31,7 +31,7 @@ namespace cAlgoUnityFramework.Unity
 
         public UnityMasterRobot(Robot algoMasterRobot) => _algoMasterRobot = algoMasterRobot;
 
-        public override void Stop()
+        public sealed override void Stop()
         {
             if(_unityRobots.Count > 0)
             {
@@ -46,7 +46,7 @@ namespace cAlgoUnityFramework.Unity
 
         #region Unity Life Cycle
 
-        public override void FixedUpdate()
+        public sealed override void FixedUpdate()
         {
             if (_unityRobots.Count <= 0) return;
 
@@ -55,17 +55,17 @@ namespace cAlgoUnityFramework.Unity
                 unityRobot.FixedUpdate();
             }
         }
-        public override void Update()
+        public sealed override void Update()
         {
             if (_unityRobots.Count <= 0) return;
 
             foreach (UnityRobot unityRobot in _unityRobots)
             {
-                unityRobot.MarketData.ServerTimeInUTC = _algoMasterRobot.Server.TimeInUtc;
+                if(unityRobot.Strategy != null) unityRobot.Strategy.MarketData.ServerTimeInUTC = _algoMasterRobot.Server.TimeInUtc;
                 unityRobot.Update();
             }
         }
-        public override void LateUpdate()
+        public sealed override void LateUpdate()
         {
             if (_unityRobots.Count <= 0) return;
 
@@ -75,7 +75,7 @@ namespace cAlgoUnityFramework.Unity
             }
         }
 
-        public override void Disable()
+        public sealed override void Disable()
         {
             if (_unityRobots.Count <= 0) return;
 
@@ -84,7 +84,7 @@ namespace cAlgoUnityFramework.Unity
                 unityRobot.Stop();
             }
         }
-        public override void Destroy()
+        public sealed override void Destroy()
         {
             if (_unityRobots.Count <= 0) return;
 

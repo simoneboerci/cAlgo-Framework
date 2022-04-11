@@ -1,5 +1,8 @@
-﻿using cAlgoUnityFramework.cAlgo;
+﻿using cAlgo.API;
+
+using cAlgoUnityFramework.cAlgo;
 using cAlgoUnityFramework.Unity;
+using cAlgoUnityFramework.Strategies;
 
 namespace cAlgoUnityFramework.Test
 {
@@ -9,7 +12,16 @@ namespace cAlgoUnityFramework.Test
 
         protected override void Main()
         {
-            UnityRobot unityRobot = _unityMasterRobot.CreateRobot(new NewUnityRobot(new NewStrategy()));
+            UnityMasterRobot unityMasterRobot = new(this);
+
+            TimeFrame timeFrame = TimeFrame.Daily;
+          
+            MarketData marketData = new(Symbol, timeFrame, MarketData.GetBars(timeFrame));
+            StrategyBase strategy = new NewStrategy(marketData);
+
+            UnityRobot unityRobot = _unityMasterRobot.CreateRobot(new NewUnityRobot(unityMasterRobot, "Test Robot"));
+
+            unityRobot.SetStrategy(strategy);
         }
 
         #endregion
