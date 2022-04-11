@@ -8,6 +8,8 @@ namespace cAlgoUnityFramework.Strategies
     {
         #region Public Variables
 
+        public Account? Account { get { return _unityRobot?.Account; } }
+
         public MarketData MarketData { get; private set; }
 
         public TradeType CurrentSignal { get; private set; }
