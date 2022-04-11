@@ -2,10 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>cAlgo_Framework</RootNamespace>
+    <RootNamespace>cAlgoUnityFramework</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Framework\**" />
+    <EmbeddedResource Remove="Framework\**" />
+    <None Remove="Framework\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="cAlgo.API">
