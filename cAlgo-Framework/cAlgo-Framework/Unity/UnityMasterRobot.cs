@@ -29,7 +29,12 @@ namespace cAlgoUnityFramework.Unity
 
         #region Public Methods
 
-        public UnityMasterRobot(Robot algoMasterRobot) => _algoMasterRobot = algoMasterRobot;
+        public UnityMasterRobot(Robot algoMasterRobot)
+        {
+            _algoMasterRobot = algoMasterRobot;
+
+            SetupEvents();
+        }
 
         public sealed override void Stop()
         {
@@ -341,6 +346,18 @@ namespace cAlgoUnityFramework.Unity
 
         private void AddRobot(UnityRobot unityRobot) => _unityRobots.Add(unityRobot);
         private void RemoveRobot(UnityRobot unityRobot) => _unityRobots.Remove(unityRobot);
+
+        private void SetupEvents()
+        {
+            _algoMasterRobot.Positions.Opened += OnPositionOpened;
+            _algoMasterRobot.Positions.Closed += OnPositionClosed;
+            _algoMasterRobot.Positions.Modified += OnPositionModified;
+
+            _algoMasterRobot.PendingOrders.Created += OnPendingOrderCreated;
+            _algoMasterRobot.PendingOrders.Filled += OnPendingOrderFilled;
+            _algoMasterRobot.PendingOrders.Cancelled += OnPendingOrderCancelled;
+            _algoMasterRobot.PendingOrders.Modified += OnPendingOrderModified;
+        }
 
         #endregion
 
