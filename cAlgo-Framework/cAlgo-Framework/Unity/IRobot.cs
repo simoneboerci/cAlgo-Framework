@@ -2,7 +2,7 @@
 
 namespace cAlgoUnityFramework.Unity
 {
-    public interface IUnityMasterRobot
+    public interface IRobot
     {
         #region Public Methods
 
@@ -125,6 +125,19 @@ namespace cAlgoUnityFramework.Unity
         public TradeResult ClosePosition(Position position, double volume);
 
         #endregion
+
+        #endregion
+
+        #region Callbacks
+
+        public void OnPositionOpened(PositionOpenedEventArgs args);
+        public void OnPositionClosed(PositionClosedEventArgs args);
+        public void OnPositionModified(PositionModifiedEventArgs args);
+
+        public void OnPendingOrderCreated(PendingOrderCreatedEventArgs args);
+        public void OnPendingOrderFilled(PendingOrderFilledEventArgs args);
+        public void OnPendingOrderModified(PendingOrderModifiedEventArgs args);
+        public void OnPendingOrderCancelled(PendingOrderCancelledEventArgs args);
 
         #endregion
 

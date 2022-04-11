@@ -1,10 +1,17 @@
 ﻿using cAlgo.API;
+using cAlgo.API.Internals;
 
 namespace cAlgoUnityFramework.Unity
 {
-    public class UnityMasterRobot : UnityRobotBase, IUnityMasterRobot
+    public class UnityMasterRobot : UnityRobotBase, IRobot
     {
         #region Variables 
+
+        #region Public Variables
+
+        public IAccount Account { get { return _algoMasterRobot.Account; } }
+
+        #endregion
 
         #region Protected Variables
 
@@ -54,6 +61,7 @@ namespace cAlgoUnityFramework.Unity
 
             foreach (UnityRobot unityRobot in _unityRobots)
             {
+                unityRobot.MarketData.ServerTimeInUTC = _algoMasterRobot.Server.TimeInUtc;
                 unityRobot.Update();
             }
         }
@@ -90,18 +98,33 @@ namespace cAlgoUnityFramework.Unity
 
         #region Manage Robots
 
-        public void CreateRobot(UnityRobot unityRobot)
+        public UnityRobot CreateRobot(UnityRobot unityRobot)
         {
             unityRobot.Start();
             AddRobot(unityRobot);
+            return unityRobot;
         }
-        public void DestroyRobot(UnityRobot unityRobot)
+        public UnityRobot DestroyRobot(UnityRobot unityRobot)
         {
             unityRobot.Stop();
             RemoveRobot(unityRobot);
+            return unityRobot;
         }
 
-        public UnityRobot GetRobot(int index) => _unityRobots[index];
+        public UnityRobot? GetRobotByIndex(int index)
+        {
+            if (index >= 0 && index < _unityRobots.Count) return _unityRobots[index];
+            else return null;
+        }
+        public UnityRobot? GetRobotByName(string name)
+        {
+            foreach(UnityRobot unityRobot in _unityRobots)
+            {
+                if (unityRobot.Name.Equals(name)) return unityRobot;
+            }
+
+            return null;
+        }
 
         #endregion
 
@@ -226,6 +249,89 @@ namespace cAlgoUnityFramework.Unity
         public TradeResult ClosePosition(Position position, double volume) => _algoMasterRobot.ClosePosition(position, volume);
 
         #endregion
+
+        #endregion
+
+        #region Callbacks
+
+        public void OnPositionOpened(PositionOpenedEventArgs args)
+        {
+            if (_unityRobots.Count > 0)
+            {
+                foreach (UnityRobot unityRobot in _unityRobots)
+                {
+                    if (args.Position.Label.Contains(unityRobot.Name))
+                        unityRobot.OnPositionOpened(args);
+                }
+            }
+        }
+        public void OnPositionClosed(PositionClosedEventArgs args)
+        {
+            if (_unityRobots.Count > 0)
+            {
+                foreach (UnityRobot unityRobot in _unityRobots)
+                {
+                    if (args.Position.Label.Contains(unityRobot.Name))
+                        unityRobot.OnPositionClosed(args);
+                }
+            }
+        }
+        public void OnPositionModified(PositionModifiedEventArgs args)
+        {
+            if (_unityRobots.Count > 0)
+            {
+                foreach (UnityRobot unityRobot in _unityRobots)
+                {
+                    if (args.Position.Label.Contains(unityRobot.Name))
+                        unityRobot.OnPositionModified(args);
+                }
+            }
+        }
+
+        public void OnPendingOrderCreated(PendingOrderCreatedEventArgs args)
+        {
+            if (_unityRobots.Count > 0)
+            {
+                foreach (UnityRobot unityRobot in _unityRobots)
+                {
+                    if (args.PendingOrder.Label.Contains(unityRobot.Name))
+                        unityRobot.OnPendingOrderCreated(args);
+                }
+            }
+        }
+        public void OnPendingOrderFilled(PendingOrderFilledEventArgs args)
+        {
+            if (_unityRobots.Count > 0)
+            {
+                foreach (UnityRobot unityRobot in _unityRobots)
+                {
+                    if (args.PendingOrder.Label.Contains(unityRobot.Name))
+                        unityRobot.OnPendingOrderFilled(args);
+                }
+            }
+        }
+        public void OnPendingOrderModified(PendingOrderModifiedEventArgs args)
+        {
+            if (_unityRobots.Count > 0)
+            {
+                foreach (UnityRobot unityRobot in _unityRobots)
+                {
+                    if (args.PendingOrder.Label.Contains(unityRobot.Name))
+                        unityRobot.OnPendingOrderModified(args);
+                }
+            }
+        }
+        public void OnPendingOrderCancelled(PendingOrderCancelledEventArgs args)
+        {
+            if (_unityRobots.Count > 0)
+            {
+                foreach (UnityRobot unityRobot in _unityRobots)
+                {
+                    if (args.PendingOrder.Label.Contains(unityRobot.Name))
+                        unityRobot.OnPendingOrderCancelled(args);
+                }
+            }
+        }
 
         #endregion
 

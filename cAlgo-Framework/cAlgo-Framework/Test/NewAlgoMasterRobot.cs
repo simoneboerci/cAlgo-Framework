@@ -1,4 +1,5 @@
 ﻿using cAlgoUnityFramework.cAlgo;
+using cAlgoUnityFramework.Unity;
 
 namespace cAlgoUnityFramework.Test
 {
@@ -8,7 +9,7 @@ namespace cAlgoUnityFramework.Test
 
         protected override void Main()
         {
-            _unityMasterRobot.CreateRobot(new NewUnityRobot(new NewStrategy()));
+            UnityRobot unityRobot = _unityMasterRobot.CreateRobot(new NewUnityRobot(new NewStrategy()));
         }
 
         #endregion
