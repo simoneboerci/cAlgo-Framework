@@ -1,16 +1,16 @@
-﻿namespace cAlgoUnityFramework
+﻿namespace cAlgoUnityFramework.Unity
 {
     public abstract class UnityRobotBase
     {
         #region Public Methods
 
-        public void Run()
+        public virtual void Run()
         {
             Awake();
             Start();
         }
 
-        public void Stop()
+        public virtual void Stop()
         {
             Disable();
             Destroy();
