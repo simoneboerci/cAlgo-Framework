@@ -12,6 +12,8 @@ namespace cAlgoUnityFramework.cAlgo
 
         #endregion
 
+        #region Methods
+
         #region Public Methods
 
         public AlgoMasterRobot() => _unityMasterRobot = new UnityMasterRobot(this);
@@ -20,9 +22,14 @@ namespace cAlgoUnityFramework.cAlgo
 
         #region Protected Methods
 
+        protected abstract void Main();
+
+        #region cAlgo Life Cycle
+
         protected sealed override void OnStart()
         {
-            _unityMasterRobot.Awake();
+            Main();
+
             _unityMasterRobot.Start();
         }
 
@@ -46,6 +53,10 @@ namespace cAlgoUnityFramework.cAlgo
 
             _unityMasterRobot.Stop();
         }
+
+        #endregion
+
+        #endregion
 
         #endregion
     }

@@ -233,8 +233,8 @@ namespace cAlgoUnityFramework.Unity
 
         #region Private Methods
 
-        public void AddRobot(UnityRobot unityRobot) => _unityRobots.Add(unityRobot);
-        public void RemoveRobot(UnityRobot unityRobot) => _unityRobots.Remove(unityRobot);
+        private void AddRobot(UnityRobot unityRobot) => _unityRobots.Add(unityRobot);
+        private void RemoveRobot(UnityRobot unityRobot) => _unityRobots.Remove(unityRobot);
 
         #endregion
 
