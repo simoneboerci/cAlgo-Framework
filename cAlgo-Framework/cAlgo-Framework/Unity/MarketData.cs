@@ -14,6 +14,16 @@ namespace cAlgoUnityFramework.Unity
         public TimeFrame TimeFrame { get; private set; }
         public Bars Bars { get; private set; }
 
+        #region Get Candles
+
+        public Bar FirstCandle { get { return Bars.Last(1); } }
+        public Bar SecondCandle { get { return Bars.Last(2); } }
+        public Bar ThirdCandle { get { return Bars.Last(3); } }
+        public Bar FourthCandle { get { return Bars.Last(4); } }
+        public Bar FifthCandle { get { return Bars.Last(5); } }
+
+        #endregion
+
         #endregion
 
         #region Public Methods
