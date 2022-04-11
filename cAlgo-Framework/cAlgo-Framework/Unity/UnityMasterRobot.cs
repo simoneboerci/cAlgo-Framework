@@ -90,15 +90,17 @@ namespace cAlgoUnityFramework.Unity
 
         #region Manage Robots
 
-        public void CreateRobot(UnityRobot unityRobot)
+        public UnityRobot CreateRobot(UnityRobot unityRobot)
         {
             unityRobot.Start();
             AddRobot(unityRobot);
+            return unityRobot;
         }
-        public void DestroyRobot(UnityRobot unityRobot)
+        public UnityRobot DestroyRobot(UnityRobot unityRobot)
         {
             unityRobot.Stop();
             RemoveRobot(unityRobot);
+            return unityRobot;
         }
 
         public UnityRobot GetRobot(int index) => _unityRobots[index];
