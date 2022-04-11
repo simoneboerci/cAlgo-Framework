@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityFramework", "cAlgo-Framework\UnityFramework.csproj", "{1E4E66DA-1D67-45A6-A08E-27DA9264FA09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cAlgoUnityFramework", "cAlgo-Framework\cAlgoUnityFramework.csproj", "{0549402F-CA1E-4201-B659-3EF31665379C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1E4E66DA-1D67-45A6-A08E-27DA9264FA09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E4E66DA-1D67-45A6-A08E-27DA9264FA09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E4E66DA-1D67-45A6-A08E-27DA9264FA09}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E4E66DA-1D67-45A6-A08E-27DA9264FA09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0549402F-CA1E-4201-B659-3EF31665379C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0549402F-CA1E-4201-B659-3EF31665379C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0549402F-CA1E-4201-B659-3EF31665379C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0549402F-CA1E-4201-B659-3EF31665379C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A0D414B9-3358-4BB4-B060-8B1010BEDE3D}
+		SolutionGuid = {0B5FC0DD-2EE2-411E-BA25-BB5380B811B2}
 	EndGlobalSection
 EndGlobal
