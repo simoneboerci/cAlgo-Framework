@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>cAlgoUnityFramework</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Framework\**" />
+    <EmbeddedResource Remove="Framework\**" />
+    <None Remove="Framework\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="cAlgo.API">
+      <HintPath>C:\Users\boerc\Documents\cAlgo\API\cAlgo.API.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

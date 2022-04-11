@@ -1,6 +1,6 @@
 ﻿using cAlgoUnityFramework.Strategies;
 
-namespace cAlgoUnityFramework
+namespace cAlgoUnityFramework.Unity
 {
     public abstract class UnityRobot : UnityRobotBase
     {
