@@ -29,13 +29,16 @@ namespace cAlgoUnityFramework.Unity
 
         #region Public Methods
 
-        public UnityMasterRobot(Robot algoMasterRobot)
+        public UnityMasterRobot(Robot algoMasterRobot) => _algoMasterRobot = algoMasterRobot;
+
+        #region Start / Stop
+
+        public sealed override void Start()
         {
-            _algoMasterRobot = algoMasterRobot;
-
             SetupEvents();
-        }
 
+            base.Start();
+        }
         public sealed override void Stop()
         {
             if(_unityRobots.Count > 0)
@@ -48,6 +51,8 @@ namespace cAlgoUnityFramework.Unity
 
             base.Stop();
         }
+
+        #endregion
 
         #region Unity Life Cycle
 
