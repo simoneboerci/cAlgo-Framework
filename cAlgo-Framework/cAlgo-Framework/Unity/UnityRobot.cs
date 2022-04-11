@@ -12,6 +12,7 @@ namespace cAlgoUnityFramework.Unity
 
         public string Name { get; private set; }
         public Account Account { get; private set; }
+        public MarketData MarketData { get; private set; }
         public StrategyBase Strategy { get; private set; }
 
         #region Events
@@ -41,13 +42,14 @@ namespace cAlgoUnityFramework.Unity
 
         #region Public Methods
 
-        public UnityRobot(UnityMasterRobot unityMasterRobot, string name, StrategyBase strategy)
+        public UnityRobot(UnityMasterRobot unityMasterRobot, string name, MarketData marketData, StrategyBase strategy)
         {
             _unityMasterRobot = unityMasterRobot;
 
             Account = new Account(this, _unityMasterRobot.Account.Balance);
 
             Name = name;
+            MarketData = marketData;
             Strategy = strategy;
         }
 

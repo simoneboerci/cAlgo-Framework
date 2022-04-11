@@ -61,6 +61,7 @@ namespace cAlgoUnityFramework.Unity
 
             foreach (UnityRobot unityRobot in _unityRobots)
             {
+                unityRobot.MarketData.ServerTimeInUTC = _algoMasterRobot.Server.TimeInUtc;
                 unityRobot.Update();
             }
         }
