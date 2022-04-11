@@ -1,13 +1,12 @@
-﻿using cAlgoUnityFramework.Strategies;
-using cAlgoUnityFramework.Unity;
+﻿using cAlgoUnityFramework.Unity;
 
 namespace cAlgoUnityFramework.Test
 {
-    interface class NewUnityRobot : UnityRobot
+    internal class NewUnityRobot : UnityRobot
     {
         #region Public Methods
 
-        public NewUnityRobot(StrategyBase strategy) : base(strategy)
+        public NewUnityRobot(UnityMasterRobot unityMasterRobot, string name) : base(unityMasterRobot, name)
         {
 
         }
