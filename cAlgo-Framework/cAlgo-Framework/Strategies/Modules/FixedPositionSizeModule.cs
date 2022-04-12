@@ -12,7 +12,7 @@
 
         #region Public Methods
 
-        public FixedPositionSizeModule(double lotSize, StrategyBase strategyBase) : base(strategyBase)
+        public FixedPositionSizeModule(double lotSize)
         {
             if (lotSize < 0.01) LotSize = 0.01;
             else LotSize = lotSize;

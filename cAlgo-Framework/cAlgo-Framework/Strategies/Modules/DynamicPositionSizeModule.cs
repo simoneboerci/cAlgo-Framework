@@ -15,7 +15,7 @@
 
         #region Public Methods
 
-        public DynamicPositionSizeModule(double riskPerTrade, int dataSample, int simulationThreshold, int dynamicFactor, bool simulateInitialTrades, StopLossModule stopLossModule, StrategyBase strategyBase) : base(riskPerTrade, stopLossModule, strategyBase)
+        public DynamicPositionSizeModule(double riskPerTrade, int dataSample, int simulationThreshold, int dynamicFactor, bool simulateInitialTrades, StopLossModule stopLossModule) : base(riskPerTrade, stopLossModule)
         {
             if (dataSample <= 0) DataSample = 100;
             else DataSample = dataSample;

@@ -10,11 +10,11 @@
 
         #region Public Methods
 
-        public TakeProfitModule(StrategyBase strategy, bool addSpread) : base(strategy) => AddSpread = addSpread;
+        public TakeProfitModule(bool addSpread) => AddSpread = addSpread;
 
         public double GetTakeProfitPips()
         {
-            if (AddSpread) return CalculateTakeProfitPips() + _strategy.MarketData.Symbol.Spread;
+            if (AddSpread && _strategy != null) return CalculateTakeProfitPips() + _strategy.MarketData.Symbol.Spread;
             else return CalculateTakeProfitPips();
         }
 

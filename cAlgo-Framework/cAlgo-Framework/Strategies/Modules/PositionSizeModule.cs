@@ -6,8 +6,6 @@
 
         #region Public Methods
 
-        public PositionSizeModule(StrategyBase strategyBase) : base(strategyBase) { }
-
         public double GetPositionSize() => GetVolumeFromLotSize(GetLotSize());
 
         #endregion
@@ -22,6 +20,8 @@
 
         private double GetVolumeFromLotSize(double lotSize)
         {
+            if (_strategy == null) return 1000;
+
             return _strategy.MarketData.Symbol.NormalizeVolumeInUnits(_strategy.MarketData.Symbol.QuantityToVolumeInUnits(lotSize));
         }
 

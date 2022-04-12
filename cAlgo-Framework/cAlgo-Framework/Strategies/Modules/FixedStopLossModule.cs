@@ -12,7 +12,7 @@
 
         #region Public Methods
 
-        public FixedStopLossModule(StrategyBase strategyBase, double stopLossPips, bool addSpread) : base(strategyBase, addSpread)
+        public FixedStopLossModule(double stopLossPips, bool addSpread) : base(addSpread)
         {
             if (stopLossPips <= 0) StopLossPips = 100;
             else StopLossPips = stopLossPips;

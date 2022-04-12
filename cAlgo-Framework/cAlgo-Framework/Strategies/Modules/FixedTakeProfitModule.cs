@@ -12,7 +12,7 @@
 
         #region Public Methods
 
-        public FixedTakeProfitModule(StrategyBase strategy, double takeProfitPips, bool addSpread) : base(strategy, addSpread)
+        public FixedTakeProfitModule(double takeProfitPips, bool addSpread) : base(addSpread)
         {
             if (takeProfitPips <= 0) TakeProfitPips = 100;
             else TakeProfitPips = takeProfitPips;

@@ -10,11 +10,11 @@
 
         #region Public Methods
 
-        public StopLossModule(StrategyBase strategyBase, bool addSpread) : base(strategyBase) => AddSpread = addSpread;
+        public StopLossModule(bool addSpread) => AddSpread = addSpread;
 
         public double GetStopLossPips()
         {
-            if (AddSpread) return CalculateStopLossPips() + _strategy.MarketData.Symbol.Spread;
+            if (AddSpread && _strategy != null) return CalculateStopLossPips() + _strategy.MarketData.Symbol.Spread;
             else return CalculateStopLossPips();
         }
 

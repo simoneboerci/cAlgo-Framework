@@ -80,6 +80,26 @@ namespace cAlgoUnityFramework.Strategies
 
         #endregion
 
+        #region Set Module
+
+        public void SetModule(PositionSizeModule positionSizeModule)
+        {
+            PositionSizeModule = positionSizeModule;
+            PositionSizeModule.SetStrategy(this);
+        }
+        public void SetModule(StopLossModule stopLossModule)
+        {
+            StopLossModule = stopLossModule;
+            StopLossModule.SetStrategy(this);
+        }
+        public void SetModule(TakeProfitModule takeProfitModule)
+        {
+            TakeProfitModule = takeProfitModule;
+            TakeProfitModule.SetStrategy(this);
+        }
+
+        #endregion
+
         #endregion
 
         #region Protected Methods

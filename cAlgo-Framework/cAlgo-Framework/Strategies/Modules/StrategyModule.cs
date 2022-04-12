@@ -4,13 +4,13 @@
     {
         #region Protected Variables
 
-        protected readonly StrategyBase _strategy;
+        protected StrategyBase? _strategy;
 
         #endregion
 
         #region Public Methods
 
-        public StrategyModule(StrategyBase strategyBase) => _strategy = strategyBase;
+        public void SetStrategy(StrategyBase strategyBase) => _strategy = strategyBase;
 
         #endregion
     }

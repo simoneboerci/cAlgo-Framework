@@ -25,7 +25,7 @@ namespace cAlgoUnityFramework.Strategies.Modules
 
         #region Public Methods
 
-        public PercentagePositionSizeModule(double riskPerTrade, StopLossModule stopLossModule, StrategyBase strategyBase) : base(strategyBase)
+        public PercentagePositionSizeModule(double riskPerTrade, StopLossModule stopLossModule)
         {
             if (riskPerTrade <= 0) RiskPerTrade = 1;
             else if(riskPerTrade > 100) RiskPerTrade = 100;
@@ -38,7 +38,12 @@ namespace cAlgoUnityFramework.Strategies.Modules
 
         #region Protected Methods
 
-        protected override double GetLotSize() => (_strategy.Account.Balance / 100.0 * RiskPerTrade) / _stopLossModule.GetStopLossPips() / 10.0;
+        protected override double GetLotSize()
+        {
+            if (_strategy == null || _strategy.Account == null) return 0.01;
+
+            return (_strategy.Account.Balance / 100.0 * RiskPerTrade) / _stopLossModule.GetStopLossPips() / 10.0;
+        }
 
         #endregion
 

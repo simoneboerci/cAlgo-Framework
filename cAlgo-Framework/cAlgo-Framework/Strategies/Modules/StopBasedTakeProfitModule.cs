@@ -24,7 +24,7 @@ namespace cAlgoUnityFramework.Strategies.Modules
 
         #region Public Methods
 
-        public StopBasedTakeProfitModule(StrategyBase strategy, double takeProfitSize, StopLossModule stopLossModule, bool addSpread) : base(strategy, addSpread)
+        public StopBasedTakeProfitModule(double takeProfitSize, StopLossModule stopLossModule, bool addSpread) : base(addSpread)
         {
             if (takeProfitSize <= 0) TakeProfitSize = 1;
             else TakeProfitSize = takeProfitSize;
@@ -38,7 +38,7 @@ namespace cAlgoUnityFramework.Strategies.Modules
 
         protected override double CalculateTakeProfitPips()
         {
-            if (_stopLossModule.AddSpread) return (_stopLossModule.GetStopLossPips() - _strategy.MarketData.Symbol.Spread) * TakeProfitSize;
+            if (_stopLossModule.AddSpread && _strategy != null) return (_stopLossModule.GetStopLossPips() - _strategy.MarketData.Symbol.Spread) * TakeProfitSize;
             else return _stopLossModule.GetStopLossPips() * TakeProfitSize;
         }
 
