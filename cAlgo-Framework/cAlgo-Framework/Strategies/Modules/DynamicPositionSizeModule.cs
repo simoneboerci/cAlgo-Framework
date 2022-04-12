@@ -61,7 +61,7 @@ namespace cAlgoUnityFramework.Strategies.Modules
                 case TradeType.Sell:
                     return _strategy.PerformanceMonitor.ShortWins / _strategy.PerformanceMonitor.Wins;
                 default:
-                    return 1;
+                    return 0;
             }
         }
 
