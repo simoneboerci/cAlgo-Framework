@@ -72,6 +72,7 @@ namespace cAlgoUnityFramework.Unity
             foreach (UnityRobot unityRobot in _unityRobots)
             {
                 if(unityRobot.Strategy != null) unityRobot.Strategy.MarketData.ServerTimeInUTC = _algoMasterRobot.Server.TimeInUtc;
+                unityRobot.Account.UpdateEquity();
                 unityRobot.Update();
             }
         }
@@ -270,7 +271,7 @@ namespace cAlgoUnityFramework.Unity
             {
                 foreach (UnityRobot unityRobot in _unityRobots)
                 {
-                    if (args.Position.Label.Contains(unityRobot.Name))
+                    if (args.Position.Label.Equals(unityRobot.Name))
                         unityRobot.OnPositionOpened(args);
                 }
             }
@@ -281,7 +282,7 @@ namespace cAlgoUnityFramework.Unity
             {
                 foreach (UnityRobot unityRobot in _unityRobots)
                 {
-                    if (args.Position.Label.Contains(unityRobot.Name))
+                    if (args.Position.Label.Equals(unityRobot.Name))
                         unityRobot.OnPositionClosed(args);
                 }
             }
@@ -292,7 +293,7 @@ namespace cAlgoUnityFramework.Unity
             {
                 foreach (UnityRobot unityRobot in _unityRobots)
                 {
-                    if (args.Position.Label.Contains(unityRobot.Name))
+                    if (args.Position.Label.Equals(unityRobot.Name))
                         unityRobot.OnPositionModified(args);
                 }
             }
@@ -304,7 +305,7 @@ namespace cAlgoUnityFramework.Unity
             {
                 foreach (UnityRobot unityRobot in _unityRobots)
                 {
-                    if (args.PendingOrder.Label.Contains(unityRobot.Name))
+                    if (args.PendingOrder.Label.Equals(unityRobot.Name))
                         unityRobot.OnPendingOrderCreated(args);
                 }
             }
@@ -315,7 +316,7 @@ namespace cAlgoUnityFramework.Unity
             {
                 foreach (UnityRobot unityRobot in _unityRobots)
                 {
-                    if (args.PendingOrder.Label.Contains(unityRobot.Name))
+                    if (args.PendingOrder.Label.Equals(unityRobot.Name))
                         unityRobot.OnPendingOrderFilled(args);
                 }
             }
@@ -326,7 +327,7 @@ namespace cAlgoUnityFramework.Unity
             {
                 foreach (UnityRobot unityRobot in _unityRobots)
                 {
-                    if (args.PendingOrder.Label.Contains(unityRobot.Name))
+                    if (args.PendingOrder.Label.Equals(unityRobot.Name))
                         unityRobot.OnPendingOrderModified(args);
                 }
             }
@@ -337,7 +338,7 @@ namespace cAlgoUnityFramework.Unity
             {
                 foreach (UnityRobot unityRobot in _unityRobots)
                 {
-                    if (args.PendingOrder.Label.Contains(unityRobot.Name))
+                    if (args.PendingOrder.Label.Equals(unityRobot.Name))
                         unityRobot.OnPendingOrderCancelled(args);
                 }
             }
