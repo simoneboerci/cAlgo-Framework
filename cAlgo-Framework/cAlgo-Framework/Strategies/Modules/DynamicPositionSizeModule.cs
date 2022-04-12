@@ -44,10 +44,13 @@ namespace cAlgoUnityFramework.Strategies.Modules
                 else
                 {
                     double riskAdjusted = RiskPerTrade + RiskPerTrade * GetDynamicBias() * (DynamicFactor / 100.0);
-                    return CalculatePercentagePositionSize(riskAdjusted);  
+                    return CalculatePercentagePositionSize(riskAdjusted);
                 }
             }
-            else if (SimulateInitialTrades) return 0.01;
+            else
+            {
+                if (SimulateInitialTrades) return 0.01;
+            }
 
             return CalculatePercentagePositionSize(RiskPerTrade);
         }
