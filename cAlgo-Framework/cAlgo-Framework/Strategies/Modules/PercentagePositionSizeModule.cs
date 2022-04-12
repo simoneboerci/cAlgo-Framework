@@ -42,8 +42,10 @@ namespace cAlgoUnityFramework.Strategies.Modules
         {
             if (_strategy == null || _strategy.Account == null) return 0.01;
 
-            return (_strategy.Account.Balance / 100.0 * RiskPerTrade) / _stopLossModule.GetStopLossPips() / 10.0;
+            return CalculatePercentagePositionSize(RiskPerTrade);
         }
+
+        protected double CalculatePercentagePositionSize(double riskPerTrade) => (_strategy.Account.Balance / 100.0 * riskPerTrade) / _stopLossModule.GetStopLossPips() / 10.0;
 
         #endregion
 

@@ -1,4 +1,6 @@
-﻿namespace cAlgoUnityFramework.Strategies.Modules
+﻿using cAlgo.API;
+
+namespace cAlgoUnityFramework.Strategies.Modules
 {
     public class DynamicPositionSizeModule : PercentagePositionSizeModule
     {
@@ -36,7 +38,31 @@
 
         protected override double GetLotSize()
         {
-            return base.GetLotSize();
+            if (_strategy.Account.History.Count >= DataSample)
+            {
+                if (GetDynamicBias() <= SimulationThreshold) return 0.01;
+                else
+                {
+                    double riskAdjusted = RiskPerTrade + RiskPerTrade * GetDynamicBias() * (DynamicFactor / 100.0);
+                    return CalculatePercentagePositionSize(riskAdjusted);  
+                }
+            }
+            else if (SimulateInitialTrades) return 0.01;
+
+            return CalculatePercentagePositionSize(RiskPerTrade);
+        }
+
+        protected virtual double GetDynamicBias()
+        {
+            switch (_strategy.CurrentSignal)
+            {
+                case TradeType.Buy:
+                    return _strategy.PerformanceMonitor.LongWins / _strategy.PerformanceMonitor.Wins * 100.0;
+                case TradeType.Sell:
+                    return _strategy.PerformanceMonitor.ShortWins / _strategy.PerformanceMonitor.Wins * 100.0;
+                default:
+                    return 100.0;
+            }
         }
 
         #endregion
