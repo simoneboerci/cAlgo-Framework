@@ -1,6 +1,7 @@
 ﻿using cAlgo.API;
 
 using cAlgoUnityFramework.Unity;
+using cAlgoUnityFramework.Strategies.Modules;
 
 namespace cAlgoUnityFramework.Strategies
 {
@@ -15,7 +16,15 @@ namespace cAlgoUnityFramework.Strategies
         public TradeType CurrentSignal { get; private set; }
         public TradeType PreviousSignal { get; private set; }
 
-        public StrategyPerformanceMonitor? Performance { get; private set; }
+        public StrategyPerformanceMonitor? PerformanceMonitor { get; private set; }
+
+        #region Risk Management
+
+        public PositionSizeModule PositionSizeModule { get; private set; }
+        public StopLossModule StopLossModule { get; private set; }
+        public TakeProfitModule TakeProfitModule { get; private set; } 
+
+        #endregion
 
         #region Events
 
@@ -38,7 +47,14 @@ namespace cAlgoUnityFramework.Strategies
 
         #region Public Methods
 
-        public StrategyBase(MarketData marketData) => MarketData = marketData;
+        public StrategyBase(MarketData marketData, PositionSizeModule positionSizeModule, StopLossModule stopLossModule, TakeProfitModule takeProfitModule)
+        {
+            MarketData = marketData;
+
+            PositionSizeModule = positionSizeModule;
+            StopLossModule = stopLossModule;
+            TakeProfitModule = takeProfitModule;
+        }
 
         public void Execute()
         {
@@ -51,7 +67,7 @@ namespace cAlgoUnityFramework.Strategies
         {
             _unityRobot = unityRobot;
 
-            Performance = new(this);
+            PerformanceMonitor = new(this);
 
             _unityRobot.PositionClosed += OnPositionClosed;
         }
