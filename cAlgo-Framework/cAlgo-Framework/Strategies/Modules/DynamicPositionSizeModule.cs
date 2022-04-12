@@ -38,9 +38,9 @@ namespace cAlgoUnityFramework.Strategies.Modules
 
         protected override double GetLotSize()
         {
-            if (_strategy.Account.History.Count >= DataSample)
+            if (_strategy?.Account?.History.Count >= DataSample)
             {
-                if (GetDynamicBias() <= SimulationThreshold) return 0.01;
+                if (GetDynamicBias() <= (SimulationThreshold / 100.0)) return 0.01;
                 else
                 {
                     double riskAdjusted = RiskPerTrade + RiskPerTrade * GetDynamicBias() * (DynamicFactor / 100.0);
@@ -54,14 +54,14 @@ namespace cAlgoUnityFramework.Strategies.Modules
 
         protected virtual double GetDynamicBias()
         {
-            switch (_strategy.CurrentSignal)
+            switch (_strategy?.CurrentSignal)
             {
                 case TradeType.Buy:
-                    return _strategy.PerformanceMonitor.LongWins / _strategy.PerformanceMonitor.Wins * 100.0;
+                    return _strategy.PerformanceMonitor.LongWins / _strategy.PerformanceMonitor.Wins;
                 case TradeType.Sell:
-                    return _strategy.PerformanceMonitor.ShortWins / _strategy.PerformanceMonitor.Wins * 100.0;
+                    return _strategy.PerformanceMonitor.ShortWins / _strategy.PerformanceMonitor.Wins;
                 default:
-                    return 100.0;
+                    return 1;
             }
         }
 
