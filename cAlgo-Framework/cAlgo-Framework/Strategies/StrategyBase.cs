@@ -54,6 +54,10 @@ namespace cAlgoUnityFramework.Strategies
             PositionSizeModule = positionSizeModule;
             StopLossModule = stopLossModule;
             TakeProfitModule = takeProfitModule;
+
+            PositionSizeModule.SetStrategy(this);
+            StopLossModule.SetStrategy(this);
+            TakeProfitModule.SetStrategy(this);
         }
 
         public void Execute()
@@ -76,26 +80,6 @@ namespace cAlgoUnityFramework.Strategies
             if(_unityRobot != null) _unityRobot.PositionClosed -= OnPositionClosed;
 
             _unityRobot = null;       
-        }
-
-        #endregion
-
-        #region Set Module
-
-        public void SetModule(PositionSizeModule positionSizeModule)
-        {
-            PositionSizeModule = positionSizeModule;
-            PositionSizeModule.SetStrategy(this);
-        }
-        public void SetModule(StopLossModule stopLossModule)
-        {
-            StopLossModule = stopLossModule;
-            StopLossModule.SetStrategy(this);
-        }
-        public void SetModule(TakeProfitModule takeProfitModule)
-        {
-            TakeProfitModule = takeProfitModule;
-            TakeProfitModule.SetStrategy(this);
         }
 
         #endregion
