@@ -73,7 +73,7 @@ namespace cAlgoUnityFramework.Strategies
         }
         public void Detach()
         {
-            _unityRobot.PositionClosed -= OnPositionClosed;
+            if(_unityRobot != null) _unityRobot.PositionClosed -= OnPositionClosed;
 
             _unityRobot = null;       
         }

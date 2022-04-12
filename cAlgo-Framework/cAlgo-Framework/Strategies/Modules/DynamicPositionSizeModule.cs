@@ -20,7 +20,7 @@
             if (dataSample <= 0) DataSample = 100;
             else DataSample = dataSample;
 
-            if (simulationThreshold < 0) = SimulationThreshold = 0;
+            if (simulationThreshold < 0) SimulationThreshold = 0;
             else if(simulationThreshold > 100) SimulationThreshold = 100;
             else SimulationThreshold = simulationThreshold;
 
