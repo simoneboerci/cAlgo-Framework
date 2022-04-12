@@ -40,12 +40,12 @@ namespace cAlgoUnityFramework.Strategies.Modules
         {
             if (_strategy?.Account?.History.Count >= DataSample)
             {
-                if (GetDynamicBias() <= (SimulationThreshold / 100.0)) return 0.01;
-                else
+                if (GetDynamicBias() > (SimulationThreshold / 100.0))
                 {
                     double riskAdjusted = RiskPerTrade + RiskPerTrade * GetDynamicBias() * (DynamicFactor / 100.0);
                     return CalculatePercentagePositionSize(riskAdjusted);
                 }
+                else return 0.01;
             }
             else
             {
