@@ -31,6 +31,14 @@ namespace cAlgoUnityFramework.Unity
 
         public UnityMasterRobot(Robot algoMasterRobot) => _algoMasterRobot = algoMasterRobot;
 
+        #region Start / Stop
+
+        public sealed override void Start()
+        {
+            SetupEvents();
+
+            base.Start();
+        }
         public sealed override void Stop()
         {
             if(_unityRobots.Count > 0)
@@ -43,6 +51,8 @@ namespace cAlgoUnityFramework.Unity
 
             base.Stop();
         }
+
+        #endregion
 
         #region Unity Life Cycle
 
@@ -341,6 +351,18 @@ namespace cAlgoUnityFramework.Unity
 
         private void AddRobot(UnityRobot unityRobot) => _unityRobots.Add(unityRobot);
         private void RemoveRobot(UnityRobot unityRobot) => _unityRobots.Remove(unityRobot);
+
+        private void SetupEvents()
+        {
+            _algoMasterRobot.Positions.Opened += OnPositionOpened;
+            _algoMasterRobot.Positions.Closed += OnPositionClosed;
+            _algoMasterRobot.Positions.Modified += OnPositionModified;
+
+            _algoMasterRobot.PendingOrders.Created += OnPendingOrderCreated;
+            _algoMasterRobot.PendingOrders.Filled += OnPendingOrderFilled;
+            _algoMasterRobot.PendingOrders.Cancelled += OnPendingOrderCancelled;
+            _algoMasterRobot.PendingOrders.Modified += OnPendingOrderModified;
+        }
 
         #endregion
 
