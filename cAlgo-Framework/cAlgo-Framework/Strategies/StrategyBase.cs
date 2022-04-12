@@ -136,6 +136,12 @@ namespace cAlgoUnityFramework.Strategies
 
         #endregion
 
+        public void UpdateSignal(TradeType currentSignal)
+        {
+            PreviousSignal = CurrentSignal;
+            CurrentSignal = currentSignal;
+        }
+
         #endregion
 
         #region Protected Methods
