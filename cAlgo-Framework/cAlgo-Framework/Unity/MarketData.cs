@@ -8,6 +8,7 @@ namespace cAlgoUnityFramework.Unity
         #region Public Variables
 
         public DateTime ServerTimeInUTC;
+        public DayOfWeek CurrentDay { get { return ServerTimeInUTC.DayOfWeek; } }
 
         public Symbol Symbol { get; private set; }
         public string SymbolName { get { return Symbol.Name; } }
