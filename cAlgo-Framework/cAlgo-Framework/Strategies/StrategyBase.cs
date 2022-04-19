@@ -70,7 +70,7 @@ namespace cAlgoUnityFramework.Strategies
 
         #region Public Methods
 
-        public StrategyBase(MarketData marketData, PositionSizeModule positionSizeModule, StopLossModule stopLossModule, TakeProfitModule takeProfitModule)
+        public StrategyBase(MarketData marketData, PositionSizeModule positionSizeModule, StopLossModule stopLossModule, TakeProfitModule takeProfitModule, int startingHour, int endingHour)
         {
             MarketData = marketData;
 
@@ -83,7 +83,7 @@ namespace cAlgoUnityFramework.Strategies
             TakeProfitModule.SetStrategy(this);
 
             SetTradingDays(true, true, true, true, true, true, true);
-            SetMarketHours(0, 24);
+            SetMarketHours(startingHour, endingHour);
         }
 
         public void Execute()
@@ -173,8 +173,17 @@ namespace cAlgoUnityFramework.Strategies
 
         public void SetMarketHours(int startingHour, int endingHour)
         {
-            StartingHour = startingHour;
-            EndingHour = endingHour;
+            if (startingHour < 0) StartingHour = 0;
+            else if (startingHour > 23) StartingHour = 23;
+            else StartingHour = startingHour;
+
+            if (endingHour < StartingHour) EndingHour = StartingHour + 1;
+            else
+            {
+                if (endingHour < 1) EndingHour = 1;
+                else if (endingHour > 24) EndingHour = 24;
+                else EndingHour = endingHour;
+            }
         }
 
         #endregion
