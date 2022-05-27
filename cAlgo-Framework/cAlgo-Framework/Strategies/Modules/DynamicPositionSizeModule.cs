@@ -40,14 +40,17 @@ namespace cAlgoUnityFramework.Strategies.Modules
         {
             if (_strategy?.Account?.History.Count >= DataSample)
             {
-                if (GetDynamicBias() <= (SimulationThreshold / 100.0)) return 0.01;
-                else
+                if (GetDynamicBias() > SimulationThreshold)
                 {
-                    double riskAdjusted = RiskPerTrade + RiskPerTrade * GetDynamicBias() * (DynamicFactor / 100.0);
-                    return CalculatePercentagePositionSize(riskAdjusted);  
+                    double riskAdjusted = RiskPerTrade + RiskPerTrade * (GetDynamicBias() / 100.0) * (DynamicFactor / 100.0);
+                    return CalculatePercentagePositionSize(riskAdjusted);
                 }
+                else return 0.01;
             }
-            else if (SimulateInitialTrades) return 0.01;
+            else
+            {
+                if (SimulateInitialTrades) return 0.01;
+            }
 
             return CalculatePercentagePositionSize(RiskPerTrade);
         }
@@ -57,9 +60,9 @@ namespace cAlgoUnityFramework.Strategies.Modules
             switch (_strategy?.CurrentSignal)
             {
                 case TradeType.Buy:
-                    return _strategy.PerformanceMonitor.LongWins / _strategy.PerformanceMonitor.Wins;
+                    return 100.0 * _strategy.PerformanceMonitor.LongWins / _strategy.PerformanceMonitor.Wins;
                 case TradeType.Sell:
-                    return _strategy.PerformanceMonitor.ShortWins / _strategy.PerformanceMonitor.Wins;
+                    return 100.0 * _strategy.PerformanceMonitor.ShortWins / _strategy.PerformanceMonitor.Wins;
                 default:
                     return 0;
             }

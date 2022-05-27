@@ -1,6 +1,8 @@
 ﻿using cAlgo.API;
 using cAlgo.API.Internals;
 
+using cAlgoUnityFramework.cAlgo;
+
 namespace cAlgoUnityFramework.Unity
 {
     public class UnityMasterRobot : UnityRobotBase, IRobot
@@ -8,6 +10,9 @@ namespace cAlgoUnityFramework.Unity
         #region Variables 
 
         #region Public Variables
+
+        public double BalanceDrawdown { get { return _algoMasterRobot.BalanceDrawdown; } }
+        public double EquityDrawdown { get { return _algoMasterRobot.EquityDrawdown; } }
 
         public IAccount Account { get { return _algoMasterRobot.Account; } }
 
@@ -21,7 +26,7 @@ namespace cAlgoUnityFramework.Unity
 
         #region Private Variables
 
-        private readonly Robot _algoMasterRobot;
+        private readonly AlgoMasterRobot _algoMasterRobot;
 
         #endregion
 
@@ -29,7 +34,7 @@ namespace cAlgoUnityFramework.Unity
 
         #region Public Methods
 
-        public UnityMasterRobot(Robot algoMasterRobot) => _algoMasterRobot = algoMasterRobot;
+        public UnityMasterRobot(AlgoMasterRobot algoMasterRobot) => _algoMasterRobot = algoMasterRobot;
 
         #region Start / Stop
 
@@ -121,6 +126,8 @@ namespace cAlgoUnityFramework.Unity
             RemoveRobot(unityRobot);
             return unityRobot;
         }
+
+        public int RobotCount => _unityRobots.Count;
 
         public UnityRobot? GetRobotByIndex(int index)
         {
@@ -255,6 +262,18 @@ namespace cAlgoUnityFramework.Unity
         #endregion
 
         #region Close Positions
+
+        public TradeResult[] CloseAllPositions()
+        {
+            List<TradeResult> tradeResults = new List<TradeResult>();
+
+            for(int i = 0; i < _algoMasterRobot.Positions.Count; i++)
+            {
+                tradeResults.Add(_algoMasterRobot.ClosePosition(_algoMasterRobot.Positions[i]));
+            }
+
+            return tradeResults.ToArray();
+        }
 
         public TradeResult ClosePosition(Position position) => _algoMasterRobot.ClosePosition(position);
         public TradeResult ClosePosition(Position position, double volume) => _algoMasterRobot.ClosePosition(position, volume);

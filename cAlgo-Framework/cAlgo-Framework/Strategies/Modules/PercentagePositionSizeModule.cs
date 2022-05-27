@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-namespace cAlgoUnityFramework.Strategies.Modules
+﻿namespace cAlgoUnityFramework.Strategies.Modules
 {
     public class PercentagePositionSizeModule : PositionSizeModule
     {

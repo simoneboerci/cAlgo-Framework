@@ -20,6 +20,25 @@ namespace cAlgoUnityFramework.Strategies
 
         public StrategyPerformanceMonitor? PerformanceMonitor { get; private set; }
 
+        #region Trading Days
+
+        public bool TradeOnSunday { get; private set; }
+        public bool TradeOnMonday { get; private set; }
+        public bool TradeOnTuesday { get; private set; }
+        public bool TradeOnWednesday { get; private set; }
+        public bool TradeOnThursday { get; private set; }
+        public bool TradeOnFriday { get; private set; }
+        public bool TradeOnSaturday { get; private set; }
+
+        #endregion
+
+        #region Market Hours
+
+        public int StartingHour { get; private set; }
+        public int EndingHour { get; private set; }
+
+        #endregion
+
         #region Risk Management
 
         public PositionSizeModule PositionSizeModule { get; private set; }
@@ -51,7 +70,7 @@ namespace cAlgoUnityFramework.Strategies
 
         #region Public Methods
 
-        public StrategyBase(MarketData marketData, PositionSizeModule positionSizeModule, StopLossModule stopLossModule, TakeProfitModule takeProfitModule)
+        public StrategyBase(MarketData marketData, PositionSizeModule positionSizeModule, StopLossModule stopLossModule, TakeProfitModule takeProfitModule, int startingHour, int endingHour)
         {
             MarketData = marketData;
 
@@ -62,11 +81,15 @@ namespace cAlgoUnityFramework.Strategies
             PositionSizeModule.SetStrategy(this);
             StopLossModule.SetStrategy(this);
             TakeProfitModule.SetStrategy(this);
+
+            SetTradingDays(true, true, true, true, true, true, true);
+            SetMarketHours(startingHour, endingHour);
         }
 
         public void Execute()
         {
-            if (CanTrade()) LookForOpportunities();
+            if (CheckTradingDays() && CheckMarketHours() && CanTrade()) LookForOpportunities();
+            if (Account?.Positions.Count > 0) ManageTrades();
         }
 
         #region Attach / Detach
@@ -136,6 +159,36 @@ namespace cAlgoUnityFramework.Strategies
 
         #endregion
 
+        #region Setters
+
+        public void SetTradingDays(bool tradeOnSunday, bool tradeOnMonday, bool tradeOnTuesday, bool tradeOnWednesday, bool tradeOnThursday, bool tradeOnFriday, bool tradeOnSaturday)
+        {
+            TradeOnSunday = tradeOnSunday;
+            TradeOnMonday = tradeOnMonday;
+            TradeOnTuesday = tradeOnTuesday;
+            TradeOnWednesday = tradeOnWednesday;
+            TradeOnThursday = tradeOnThursday;
+            TradeOnFriday = tradeOnFriday;
+            TradeOnSaturday = tradeOnSaturday;
+        }
+
+        public void SetMarketHours(int startingHour, int endingHour)
+        {
+            if (startingHour < 0) StartingHour = 0;
+            else if (startingHour > 23) StartingHour = 23;
+            else StartingHour = startingHour;
+
+            if (endingHour < StartingHour) EndingHour = StartingHour + 1;
+            else
+            {
+                if (endingHour < 1) EndingHour = 1;
+                else if (endingHour > 24) EndingHour = 24;
+                else EndingHour = endingHour;
+            }
+        }
+
+        #endregion
+
         public void UpdateSignal(TradeType currentSignal)
         {
             PreviousSignal = CurrentSignal;
@@ -147,6 +200,7 @@ namespace cAlgoUnityFramework.Strategies
         #region Protected Methods
 
         protected abstract void LookForOpportunities();
+        protected virtual void ManageTrades() { }
 
         protected virtual bool CanTrade() => true;
 
@@ -162,6 +216,37 @@ namespace cAlgoUnityFramework.Strategies
             if(args.Reason == PositionCloseReason.TakeProfit) OnTakeProfit?.Invoke(args.Position);
             else if(args.Reason == PositionCloseReason.StopLoss) OnStopLoss?.Invoke(args.Position);
         }
+
+        private bool CheckTradingDays()
+        {
+            switch (MarketData.CurrentDay)
+            {
+                case System.DayOfWeek.Sunday:
+                    if (TradeOnSunday) return true;
+                    else return false;
+                case System.DayOfWeek.Monday:
+                    if (TradeOnMonday) return true;
+                    else return false;
+                case System.DayOfWeek.Tuesday:
+                    if (TradeOnTuesday) return true;
+                    else return false;
+                case System.DayOfWeek.Wednesday:
+                    if (TradeOnWednesday) return true;
+                    else return false;
+                case System.DayOfWeek.Thursday:
+                    if (TradeOnThursday) return true;
+                    else return false;
+                case System.DayOfWeek.Friday:
+                    if (TradeOnFriday) return true;
+                    else return false;
+                case System.DayOfWeek.Saturday:
+                    if (TradeOnSaturday) return true;
+                    else return false;
+                default: return false;
+            }
+        }
+
+        private bool CheckMarketHours() => MarketData.ServerTimeInUTC.Hour >= StartingHour && MarketData.ServerTimeInUTC.Hour <= EndingHour;
 
         #endregion
 
