@@ -89,6 +89,7 @@ namespace cAlgoUnityFramework.Strategies
         public void Execute()
         {
             if (CheckTradingDays() && CheckMarketHours() && CanTrade()) LookForOpportunities();
+            if (Account?.Positions.Count > 0) ManageTrades();
         }
 
         #region Attach / Detach
@@ -199,6 +200,7 @@ namespace cAlgoUnityFramework.Strategies
         #region Protected Methods
 
         protected abstract void LookForOpportunities();
+        protected virtual void ManageTrades() { }
 
         protected virtual bool CanTrade() => true;
 
