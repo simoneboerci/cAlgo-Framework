@@ -8,8 +8,19 @@ namespace cAlgoUnityFramework.Unity
 
         #region Public Variables
 
+        public double NetProfit { get; private set; }
+
         public double Balance { get; private set; }
         public double Equity { get; private set; }
+
+        public double BalanceDrawdown { get; private set; }
+        public double EquityDrawdown { get; private set; }
+
+        public double BalancePeak { get; private set; }
+        public double EquityPeak { get; private set; }
+
+        public double MaxBalanceDrawdown { get; private set; }
+        public double MaxEquityDrawdown { get; private set; }
 
         public List<Position> History { get; private set; }
 
@@ -47,7 +58,12 @@ namespace cAlgoUnityFramework.Unity
 
         #region Update Balance / Equity
 
-        public void UpdateBalance(double netProfit) => Balance += netProfit;
+        public void UpdateBalance(double netProfit)
+        { 
+            Balance += netProfit;
+
+            UpdateBalanceDrawdown();
+        }
 
         public void UpdateEquity()
         {
@@ -60,6 +76,8 @@ namespace cAlgoUnityFramework.Unity
                     Equity += position.NetProfit;
                 }
             }
+
+            UpdateBalanceDrawdown();
         }
 
         #endregion
@@ -71,6 +89,8 @@ namespace cAlgoUnityFramework.Unity
         {
             Positions.Remove(args.Position);
             History.Add(args.Position);
+
+            NetProfit += args.Position.NetProfit;
 
             UpdateBalance(args.Position.NetProfit);
         }
@@ -94,6 +114,28 @@ namespace cAlgoUnityFramework.Unity
             _unityRobot.PendingOrderCancelled += OnPendingOrderCancelled;
             _unityRobot.PendingOrderFilled += OnPendingOrderFilled;
         }
+
+        #region Update Drawdown
+
+        private void UpdateBalanceDrawdown()
+        {
+            BalanceDrawdown = (BalancePeak - Balance) / BalancePeak * 100.0;
+
+            if (Balance > BalancePeak) BalancePeak = Balance;
+
+            if (BalanceDrawdown > MaxBalanceDrawdown) MaxBalanceDrawdown = BalanceDrawdown;
+        }
+
+        private void UpdateEquityDrawdown()
+        {
+            EquityDrawdown = (EquityPeak - Equity) / EquityPeak * 100.0;
+
+            if (Equity > EquityPeak) EquityPeak = Equity;
+
+            if (EquityDrawdown > MaxEquityDrawdown) MaxEquityDrawdown = EquityDrawdown;
+        }
+
+        #endregion
 
         #endregion
 

@@ -60,9 +60,9 @@ namespace cAlgoUnityFramework.Strategies.Modules
             switch (_strategy?.CurrentSignal)
             {
                 case TradeType.Buy:
-                    return 100.0 * _strategy.PerformanceMonitor.LongWins / _strategy.PerformanceMonitor.Wins;
+                    return 100.0 * _strategy.PerformanceMonitor.LongWins / _strategy.PerformanceMonitor.WinningTrades;
                 case TradeType.Sell:
-                    return 100.0 * _strategy.PerformanceMonitor.ShortWins / _strategy.PerformanceMonitor.Wins;
+                    return 100.0 * _strategy.PerformanceMonitor.ShortWins / _strategy.PerformanceMonitor.WinningTrades;
                 default:
                     return 0;
             }

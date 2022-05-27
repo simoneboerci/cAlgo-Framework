@@ -2,6 +2,7 @@
 using cAlgo.API.Internals;
 
 using cAlgoUnityFramework.cAlgo;
+using cAlgoUnityFramework.Data;
 
 namespace cAlgoUnityFramework.Unity
 {
@@ -27,6 +28,8 @@ namespace cAlgoUnityFramework.Unity
         #region Private Variables
 
         private readonly AlgoMasterRobot _algoMasterRobot;
+
+        #endregion
 
         #endregion
 
@@ -365,6 +368,18 @@ namespace cAlgoUnityFramework.Unity
 
         #endregion
 
+        public SPerformanceSnapshot[] RequestLogs()
+        {
+            List<SPerformanceSnapshot> performanceSnapshots = new();
+
+            foreach(UnityRobot unityRobot in _unityRobots)
+            {
+                performanceSnapshots.Add(unityRobot.GetPerformanceSnapshot());
+            }
+
+            return performanceSnapshots.ToArray();
+        } 
+
         #endregion
 
         #region Private Methods
@@ -383,8 +398,6 @@ namespace cAlgoUnityFramework.Unity
             _algoMasterRobot.PendingOrders.Cancelled += OnPendingOrderCancelled;
             _algoMasterRobot.PendingOrders.Modified += OnPendingOrderModified;
         }
-
-        #endregion
 
         #endregion
 

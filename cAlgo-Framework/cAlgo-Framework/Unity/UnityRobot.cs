@@ -1,6 +1,7 @@
 ﻿using cAlgo.API;
 
 using cAlgoUnityFramework.Strategies;
+using cAlgoUnityFramework.Data;
 
 namespace cAlgoUnityFramework.Unity
 {
@@ -47,6 +48,19 @@ namespace cAlgoUnityFramework.Unity
             ResetEvents();
 
             base.Stop();
+        }
+
+        public SPerformanceSnapshot GetPerformanceSnapshot()
+        {
+            SPerformanceSnapshot performanceSnapshot = new SPerformanceSnapshot
+                (
+                    Account.NetProfit,
+                    Strategy.PerformanceMonitor.ProfitFactor,
+                    new SDrawdown(Strategy.Account.MaxBalanceDrawdown, Strategy.Account.MaxEquityDrawdown),
+                    new STrades(Strategy.PerformanceMonitor.WinningTrades, Strategy.PerformanceMonitor.LosingTrades, Strategy.PerformanceMonitor.MaxConsecutiveWins, Strategy.PerformanceMonitor.MaxConsecutiveLosses)
+                );
+
+            return performanceSnapshot;
         }
 
         #region Orders

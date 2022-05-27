@@ -1,6 +1,7 @@
 ﻿using cAlgo.API;
 
 using cAlgoUnityFramework.Unity;
+using cAlgoUnityFramework.Data;
 
 namespace cAlgoUnityFramework.cAlgo
 {
@@ -10,8 +11,12 @@ namespace cAlgoUnityFramework.cAlgo
 
         #region Public Variables
 
+        #region Drawdown
+
         public double BalanceDrawdown { get; private set; }
         public double EquityDrawdown { get; private set; }
+
+        #endregion
 
         #endregion
 
@@ -40,9 +45,13 @@ namespace cAlgoUnityFramework.cAlgo
 
         #region Protected Methods
 
+        #region Overrides
+
         protected abstract void Main();
 
         protected virtual void Update() { }
+
+        #endregion
 
         #region cAlgo Life Cycle
 
@@ -69,6 +78,8 @@ namespace cAlgoUnityFramework.cAlgo
 
         protected sealed override void OnStop()
         {
+            PrintLogs();
+
             _unityMasterRobot.Stop();
         }
         protected sealed override void OnError(Error error)
@@ -83,6 +94,8 @@ namespace cAlgoUnityFramework.cAlgo
         #endregion
 
         #region Private Methods
+
+        #region Update
 
         private void OnUpdate()
         {
@@ -111,6 +124,18 @@ namespace cAlgoUnityFramework.cAlgo
             else if(args.Position.NetProfit < 0)
             {
                 if (BalanceDrawdown > _maxBalanceDrawdown) _maxBalanceDrawdown = BalanceDrawdown;
+            }
+        }
+
+        #endregion
+
+        private void PrintLogs()
+        {
+            SPerformanceSnapshot[] performanceSnapshots = _unityMasterRobot.RequestLogs();
+
+            foreach(SPerformanceSnapshot performanceSnapshot in performanceSnapshots)
+            {
+                Print(performanceSnapshot.ToString());
             }
         }
 

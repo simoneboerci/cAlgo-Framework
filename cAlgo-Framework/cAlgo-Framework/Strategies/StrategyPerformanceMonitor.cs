@@ -8,16 +8,18 @@ namespace cAlgoUnityFramework.Strategies
 
         #region Public Variables
 
-        public int Trades { get { return Wins + Losses; } }
+        public double ProfitFactor { get { return (WinRate * GetAverageProfit()) / ((100.0 - WinRate) * GetAverageLoss()); } }
 
-        public int Wins { get { return LongWins + ShortWins; } }
-        public int Losses { get { return LongLosses + ShortLosses; } }
+        public int Trades { get { return WinningTrades + LosingTrades; } }
+
+        public int WinningTrades { get { return LongWins + ShortWins; } }
+        public int LosingTrades { get { return LongLosses + ShortLosses; } }
 
         public double WinRate 
         {
             get
             {
-                if (Trades > 0) return Wins / Trades * 100.0;
+                if (Trades > 0) return WinningTrades / Trades * 100.0;
                 else return 100.0;
             }
         }
@@ -122,6 +124,44 @@ namespace cAlgoUnityFramework.Strategies
             _strategy.OnLoss += OnLoss;
             _strategy.OnTakeProfit += OnTakeProfit;
             _strategy.OnStopLoss += OnStopLoss;
+        }
+
+        public double GetAverageProfit()
+        {
+            if (_strategy.Account == null) return 0;
+
+            int trades = 0;
+            double totalProfit = 0;
+
+            foreach(Position position in _strategy.Account.History)
+            {
+                if (position.NetProfit > 0)
+                {
+                    trades++;
+                    totalProfit += position.NetProfit;
+                }
+            }
+
+            return totalProfit / trades;
+        }
+
+        public double GetAverageLoss()
+        {
+            if (_strategy.Account == null) return 0;
+
+            int trades = 0;
+            double totalLoss = 0;
+
+            foreach (Position position in _strategy.Account.History)
+            {
+                if(position.NetProfit < 0)
+                {
+                    trades++;
+                    totalLoss += position.NetProfit;
+                }
+            }
+
+            return totalLoss / trades;
         }
 
         #endregion
